@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Result</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
+    body, html {
+      height:100%;
+      width:100%;
+      background: linear-gradient(135deg,#ff9a9e,#fad0c4,#a18cd1,#fbc2eb);
+      background-size:400% 400%;
+      animation: gradientBG 15s ease infinite;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+    @keyframes gradientBG{
+      0%{background-position:0% 50%;}
+      50%{background-position:100% 50%;}
+      100%{background-position:0% 50%;}
+    }
+    .container{
+      text-align:center;
+      padding:50px;
+      background:rgba(255,255,255,0.85);
+      border-radius:20px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.3);
+      width:90%;
+      max-width:600px;
+      animation:fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:scale(0.8);}
+      to{opacity:1;transform:scale(1);}
+    }
+    h1{font-size:3rem;margin-bottom:20px;color:#333;}
+    h2{font-size:1.5rem;margin-bottom:30px;color:#333;line-height:1.6;}
+    .btn-primary{
+      padding:15px 35px;font-size:1.2rem;color:white;
+      background:linear-gradient(45deg,#ff416c,#ff4b2b);
+      border:none;border-radius:50px;cursor:pointer;transition:all 0.3s ease;
+      box-shadow:0 6px 15px rgba(0,0,0,0.3);
+    }
+    .btn-primary:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.4);
+      background:linear-gradient(45deg,#ff4b2b,#ff416c);
+    }
+  </style>
+  <script>
+    function showResult() {
+      const correctAnswers = ["JavaScript","Cascading Style Sheets","<script>","Sun Microsystems","<ul>"];
+      let score = 0;
+      const total = correctAnswers.length;
+
+      for(let i=0; i<total; i++){
+        const userAnswer = localStorage.getItem("question"+(i+1));
+        if(userAnswer === correctAnswers[i]){
+          score++;
+        }
+      }
+
+      const percent = (score/total)*100;
+      let grade = "";
+
+      if(percent >= 90) grade = "Excellent 🎉";
+      else if(percent >= 75) grade = "Very Good 👍";
+      else if(percent >= 50) grade = "Good 🙂";
+      else grade = "Needs Improvement 😔";
+
+      document.getElementById("score").innerHTML =
+        `You scored <strong>${score}</strong> out of <strong>${total}</strong> (${percent.toFixed(0)}%)<br>Grade: <strong>${grade}</strong>`;
+    }
+  </script>
+</head>
+<body onload="showResult()">
+  <div class="container">
+    <h1>Quiz Completed!</h1>
+    <h2 id="score"></h2>
+    <button class="btn-primary" onclick="window.location.href='index.html'">Restart Quiz</button>
+  </div>
+</body>
+</html>
